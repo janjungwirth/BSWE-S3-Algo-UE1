@@ -3,57 +3,57 @@ package at.fh_burgenland.bswe.algo.Solver;
 
 import at.fh_burgenland.bswe.algo.sudoku.Sudoku;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.time.LocalDateTime;
 
 public class SolverBF implements Solver {
 
-
-    private static class Position {
-        final Integer row;
-        final Integer col;
-
-        public Position(Integer row, Integer col) {
-            this.row = row;
-            this.col = col;
-        }
+    public void solve(Sudoku game) {
+        solve(game, 0, 0);
     }
 
-    /**
-     * @param game the board it wants to solve
-     */
-    @Override
-    public void solve(Sudoku game) {
-        List<Position> positionList = new LinkedList<>();
-        Position pointer =new Position(0,0);
+    public boolean solve(Sudoku game, int row, int col) {
+        if (row == game.getGAME_SIZE()) {
+            return true;
+        }
 
-        for(int row=0; row<game.getGAME_SIZE();row++)
-            for(int col=0; col<game.getGAME_SIZE();col++)
-                if(game.getNumberAt(row,col)==0){
-                    positionList.add(new Position(row,col));
-                    pointer=positionList.getLast();
-                    for(int number=1;number<=game.getGAME_SIZE();number++){
-                        if(game.checkMove(row,col,number)){
-                            game.playMove(row,col,number);
-                        }
-                        game.resetAt(positionList.getLast().row, positionList.getLast().col);
-                        positionList.removeLast();
-                    }
+        int nextRow, nextCol;
+        if (col == game.getGAME_SIZE() - 1) {
+            nextRow = row + 1;
+            nextCol = 0;
+        } else {
+            nextRow = row;
+            nextCol = col + 1;
+        }
+
+        // if the current position already contains a number, skip it
+        if (game.getNumberAt(row, col) != 0) {
+            return solve(game, nextRow, nextCol);
+        }
+
+        for (int num = 0; num <= game.getGAME_SIZE(); num++) {
+            if (game.checkMove(row, col, num)) {
+                game.playMove(row, col, num);
+                if (solve(game, nextRow, nextCol)) {
+                    return true;
                 }
-
-        //schau nach zahl
-        //schau nach nächste zahl
-        //geh zurück schau nächste zahl
+                game.resetAt(row, col); // undo move if not valid
+            }
+        }
+        return false;
     }
 
     public static void main(String[] args) {
-        //"006100345801040720003602891560020913342009087007300000080001470010467000000000000"
-        Sudoku game = new Sudoku(9);
-        SolverBF bf = new SolverBF();
-        game.populateGame("006100345801040720003602891560020913342009087007300000080001470010467000000000000");
-        game.printBoard();
-        bf.solve(game);
-        game.printBoard();
+        for(int i=0;i<10;i++) {
+            long l = System.currentTimeMillis();
+            Sudoku game = new Sudoku(9);
+            SolverBF bf = new SolverBF();
+            game.populateGame("080200000600003017000070090400002000000401900070800230050900000940107008200086000");
+//            game.printBoard();
+            bf.solve(game);
+//            game.printBoard();
+            System.out.println(System.currentTimeMillis() - l);
+            //"006100345801040720003602891560020913342009087007300000080001470010467000000000000" //unsolved yet but solvable
+        }
     }
 }
 

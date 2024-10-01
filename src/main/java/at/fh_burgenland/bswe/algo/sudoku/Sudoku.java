@@ -65,34 +65,25 @@ public class Sudoku {
      * Checks for an move if its legal or not
      * @param row to place the number
      * @param col to place the number
-     * @param number wich number to place
+     * @param num wich number to place
      * @return
      *      *true = valid move
      *      *false = not a valid move
      */
-    public boolean checkMove(int row, int col, int number) {
+    public boolean checkMove(int row, int col, int num) {
+            // check the number being placed does not exist in the current row or column or 3x3 grid.
+            int startRow = row / 3 * 3;
+            int startCol = col / 3 * 3;
 
-        //Row Check
-       for(Integer rowChecker : playgroud[row])
-           if(rowChecker == number)
-               return false;
-
-        //Col Check
-        for(int colCounter=0; colCounter<GAME_SIZE-1;colCounter++){
-            if(playgroud[col][colCounter]==number)
-                return false;
-        }
-
-        //Grid Check
-        int beginGridRow = row - row % 3;
-        int beginGridCol = col - col % 3;
-        for(int rowCounter=beginGridRow;rowCounter<beginGridRow+3;rowCounter++)
-            for(int colCounter = beginGridCol; colCounter <beginGridCol+3; colCounter++)
-                if(playgroud[rowCounter][colCounter]==number)
+            for (int i = 0; i < 9; i++) {
+                if (this.playgroud[i][col] == num || this.playgroud[row][i] == num ||
+                        this.playgroud[startRow + i / 3][startCol + i % 3] == num) {
                     return false;
+                }
+            }
 
+            return true;
 
-        return true;
     }
 
 
@@ -147,5 +138,9 @@ public class Sudoku {
      */
     public void resetAt(int row, int col){
         this.playgroud[row][col]=0;
+    }
+
+    public Integer[][] getBoard() {
+        return this.playgroud;
     }
 }
