@@ -11,49 +11,34 @@ public class SolverBF implements Solver {
         solve(game, 0, 0);
     }
 
-    public boolean solve(Sudoku game, int row, int col) {
-        if (row == game.getGAME_SIZE()) {
-            return true;
+    private boolean solve(Sudoku game, int row, int col) {
+        if (row == game.getGAME_SIZE()) { //O(1)
+            return true; //O(1)
         }
 
-        int nextRow, nextCol;
-        if (col == game.getGAME_SIZE() - 1) {
-            nextRow = row + 1;
-            nextCol = 0;
-        } else {
-            nextRow = row;
-            nextCol = col + 1;
+        int nextRow, nextCol; //O(1)
+        if (col == game.getGAME_SIZE() - 1) { //O(1)
+            nextRow = row + 1; //O(1)
+            nextCol = 0; //O(1)
+        } else { //O(1)
+            nextRow = row; //O(1)
+            nextCol = col + 1; //O(1)
         }
 
-        // if the current position already contains a number, skip it
-        if (game.getNumberAt(row, col) != 0) {
-            return solve(game, nextRow, nextCol);
+        if (game.getNumberAt(row, col) != 0) { //O(1)
+            return solve(game, nextRow, nextCol); //O(n2) Recursion
         }
 
-        for (int num = 0; num <= game.getGAME_SIZE(); num++) {
-            if (game.checkMove(row, col, num)) {
-                game.playMove(row, col, num);
-                if (solve(game, nextRow, nextCol)) {
-                    return true;
-                }
-                game.resetAt(row, col); // undo move if not valid
+        for (int num = 0; num <= game.getGAME_SIZE(); num++) { //O(n) weil es direkt proportional zu der größe des Feldes steht
+            if (game.checkMove(row, col, num)) { //O(1)
+                game.playMove(row, col, num); //O(1)
+                if (solve(game, nextRow, nextCol)) { //O(n2) Recursion
+                    return true; //O(1)
+                } //O(1)
+                game.resetAt(row, col); // undo move if not valid //O(1)
             }
         }
         return false;
-    }
-
-    public static void main(String[] args) {
-        for(int i=0;i<10;i++) {
-            long l = System.currentTimeMillis();
-            Sudoku game = new Sudoku(9);
-            SolverBF bf = new SolverBF();
-            game.populateGame("080200000600003017000070090400002000000401900070800230050900000940107008200086000");
-//            game.printBoard();
-            bf.solve(game);
-//            game.printBoard();
-            System.out.println(System.currentTimeMillis() - l);
-            //"006100345801040720003602891560020913342009087007300000080001470010467000000000000" //unsolved yet but solvable
-        }
     }
 }
 
