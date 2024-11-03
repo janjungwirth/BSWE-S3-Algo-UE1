@@ -8,6 +8,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SolverBFTest {
 
+    /**
+     * Given: You have a 9x9 Game.
+     * When: A playable seed is the input.
+     * Then: The algorithm solves it.
+     */
     @Test
     @DisplayName("Solve 9 by 9 Grid")
     public void solveTest9x9(){

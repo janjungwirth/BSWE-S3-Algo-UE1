@@ -29,7 +29,7 @@ public class Sudoku {
         //Filling board
         for(int row=0;row<GAME_SIZE;row++)
             for(int col=0;col<GAME_SIZE;col++)
-                playgroud[row][col]=0;
+                playgroud[row][col]= Integer.valueOf(0);
 
 
 
@@ -44,7 +44,7 @@ public class Sudoku {
      * @throws InvalidGameStateException is thown if the game was not yet implemented
      */
     @SneakyThrows
-    public void playMove(int row, int col, int number) {
+    public void playMove(int row, int col, Integer number) {
         if(row > GAME_SIZE || col > GAME_SIZE || row <0 || col <0)
             throw new InvalidMoveException("This play is out of field.");
 
@@ -126,7 +126,7 @@ public class Sudoku {
      *             //TODO refector to work with numbers 10 upwards
      */
     public void populateGame(String seed){
-        char[] numbers = seed.toCharArray();
+        char[] numbers = seed.trim().toCharArray();
         int pointer=0;
         for(int row=0;row<GAME_SIZE;row++)
             for(int col=0;col<GAME_SIZE;col++)
@@ -137,7 +137,7 @@ public class Sudoku {
      * Resets the Value of a Game to 0
      */
     public void resetAt(int row, int col){
-        this.playgroud[row][col]=0;
+        this.playgroud[row][col]=Integer.valueOf(0);
     }
 
     public Integer[][] getBoard() {

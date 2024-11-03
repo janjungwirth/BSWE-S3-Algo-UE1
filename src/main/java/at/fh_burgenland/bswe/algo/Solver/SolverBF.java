@@ -29,7 +29,7 @@ public class SolverBF implements Solver {
             return solve(game, nextRow, nextCol); //O(n2) Recursion
         }
 
-        for (int num = 0; num <= game.getGAME_SIZE(); num++) { //O(n) weil es direkt proportional zu der größe des Feldes steht
+        for (Integer num = Integer.valueOf(0); num <= game.getGAME_SIZE(); num++) { //O(n) weil es direkt proportional zu der größe des Feldes steht
             if (game.checkMove(row, col, num)) { //O(1)
                 game.playMove(row, col, num); //O(1)
                 if (solve(game, nextRow, nextCol)) { //O(n2) Recursion

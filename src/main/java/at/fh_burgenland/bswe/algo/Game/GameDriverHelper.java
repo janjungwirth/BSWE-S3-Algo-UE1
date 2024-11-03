@@ -18,7 +18,7 @@ public class GameDriverHelper {
         Scanner scanner = new Scanner(System.in);
 
         do {
-            try {
+//            try {
                 System.out.print("Input: ");
                 String seed = scanner.nextLine();
 
@@ -30,9 +30,9 @@ public class GameDriverHelper {
                 System.out.print("Input: ");
                 running = scanner.nextLine().toLowerCase().contains("y");
 
-            } catch (Exception e) {
-                System.out.println("Something went wrong. Please ensure the correct input format and valid data.");
-            }
+//            } catch (Exception e) {
+//                System.out.println("Something went wrong. Please ensure the correct input format and valid data.");
+//            }
         } while (running);
 
     }
